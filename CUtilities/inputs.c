@@ -8,6 +8,7 @@
 
 #include "inputs.h"
 
+#include <stdlib.h>
 #include <limits.h>
 #include <float.h>
 
@@ -84,10 +85,59 @@ double __e_double(const char* message, const double bounds[], int size) {
   return ret;
 }
 
-char __e_char(const char *message, const char *__, int ___) {
-  printf("%s", message);
-  fflush(stdin);
-  fseek(stdin, 0, SEEK_END);
+char __e_char(const char *message, const char *bounds, int size) {
+  char min = CHAR_MIN;
+  char max = CHAR_MAX;
   
-  return getchar();
+  char ret = 0;
+  
+  switch(size) {
+    case 2: {
+      max = bounds[1];
+    }
+    case 1: {
+      min = bounds[0];
+      break;
+    }
+  }
+  
+  do {
+    printf("%s", message);
+    fflush(stdin);
+    fseek(stdin, 0, SEEK_END);
+    ret = getchar();
+  } while (ret < min || ret > max);
+  
+  return ret;
+}
+
+
+char * enterString(const char *message, char breakChar) {
+  char *str = (char*) malloc(sizeof(char));
+  
+  if (!str) {
+    return NULL;
+  }
+  
+  int i = 0;
+  char c;
+  
+  printf("%s", message);
+  
+  while ((c = getchar()) != -1) {
+    str[i++] = c;
+    
+    if (c == breakChar) {
+      str[i - 1] = '\0';
+      break;
+    }
+    
+
+    if (!(str = (char*) realloc(str, sizeof(char) * (i + 1)))) {
+      str[i - 1] = '\0';
+      break;
+    }
+  }
+  
+  return str;
 }

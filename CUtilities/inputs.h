@@ -24,4 +24,6 @@ double __e_double(const char*, const double*, int);
 
 char __e_char(const char*, const char*, int);
 
+char * enterString(const char*, char);
+
 #endif /* inputs_h */
