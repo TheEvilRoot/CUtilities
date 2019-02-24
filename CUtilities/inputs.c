@@ -122,6 +122,9 @@ char * enterString(const char *message, char breakChar) {
   int i = 0;
   char c;
   
+  fflush(stdin);
+  fseek(stdin, 0, SEEK_END);
+  
   printf("%s", message);
   
   while ((c = getchar()) != -1) {
